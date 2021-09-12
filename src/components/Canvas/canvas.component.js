@@ -10,13 +10,10 @@ class Canvas extends React.Component {
     brushRadius: 6,
     lazyRadius: 12,
   };
-  componentDidMount() {
-    // let's change the color randomly every 2 seconds. fun!
-    window.setInterval(() => {
-      this.setState({
-        color: "#" + Math.floor(Math.random() * 16777215).toString(16),
-      });
-    }, 2000);
+  constructor(props){
+    super(props);
+    debugger;
+    this.loadedData = this.props.loadData;
   }
   render() {
     return (
@@ -25,6 +22,9 @@ class Canvas extends React.Component {
         <CanvasDraw
           ref={(canvasDraw) => (this.saveableCanvas = canvasDraw)}
           brushRadius={this.state.brushRadius}
+          lazyRadius={this.state.lazyRadius}
+          brushColor={this.state.color}
+          saveData={this.loadedData}
           style={{
             boxShadow:
               "0 13px 27px -5px rgba(50, 50, 93, 0.25),    0 8px 16px -8px rgba(0, 0, 0, 0.3)",
