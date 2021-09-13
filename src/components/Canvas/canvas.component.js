@@ -12,8 +12,7 @@ class Canvas extends React.Component {
   };
   constructor(props){
     super(props);
-    debugger;
-    this.loadedData = this.props.loadData;
+    this.loadedData = JSON.stringify(this.props.loadData);
   }
   render() {
     return (

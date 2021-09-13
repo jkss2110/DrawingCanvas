@@ -13,44 +13,14 @@ export default class QuickDraw extends React.Component {
                 width: 400,
                 height: 400
                 }
-      /* draw : (ctx, framework) => {
-                ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
-                ctx.fillStyle = "#000000"
-                ctx.beginPath()
-                ctx.arc(50,20,20*Math.sin(framework*0.05)**2,0,2*Math.PI)
-                ctx.fill()
-                }*/
     };
+    this.canvasContent = [];
   }
-  /*resizeCanvasToDisplaySize(canvas) {
-    
-        const { width, height } = canvas.getBoundingClientRect()
-    
-        if (canvas.width !== width || canvas.height !== height) {
-          canvas.width = width
-          canvas.height = height
-          return true // here you can return some usefull information like delta width and delta height instead of just true
-          // this information can be used in the next redraw...
-        }
-    
-        return false
-    }
-    preDraw (context,canvas) {
-        context.save();
-        this.resizeCanvasToDisplaySize(canvas);
-        const { width,height } =context.canvas;
-        context.clearRect(0,0,width,height);
-    }
-    postDraw(ctx){
-       // index++;
-        ctx.restore();
-    }*/
   componentDidMount() {
     this.httpHandler
-      .fetchDrawing()
+      .fetchDrawing("/users")
       .then((result) => {
-        const drawings = result.drawings;
-        debugger;
+        const drawings = result.drawing;
         let formatDataJSON = this.formatData(drawings);
         this.setState(
           {
@@ -65,6 +35,7 @@ export default class QuickDraw extends React.Component {
   formatData = (drawings) =>{
    // const drawingLength = drawings.length;
    let formatDataJSON = this.state.outputData;
+   
    drawings.forEach(data => {
       const lineData = {
         brushColor : "#ffc600",
@@ -79,12 +50,16 @@ export default class QuickDraw extends React.Component {
         lineData.points.push(points);
       }
       formatDataJSON.lines.push(lineData);
+      this.canvasContent = [];
+      this.canvasContent.push(<Canvas loadData={this.state.outputData}></Canvas>);
     });
     return formatDataJSON;
   }
   render() {
     return (
-      <Canvas loadData={this.state.outputData}></Canvas>
+      <>
+      {this.canvasContent}
+      </>
     );
   }
 }

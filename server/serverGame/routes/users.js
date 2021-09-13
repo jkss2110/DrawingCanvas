@@ -10,6 +10,7 @@ fs.createReadStream('../drawings/face.ndjson').pipe(ndjson.parse()).on(
   });
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+
   const index = Math.floor(Math.random() * drawing.length);
   res.send(drawing[index]);
 });

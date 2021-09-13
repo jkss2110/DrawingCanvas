@@ -7,10 +7,10 @@ export default class HttpRequestHandler {
       this.headers.append("Access-Control-Allow-Origin", "*");
       this.headers.append("GET", "POST", "OPTIONS");
     }
-    fetchDrawing = async () => {
+    fetchDrawing = async (url) => {
       try{
           const response = await fetch(
-              "/users",
+              url,
               {
                 headers: this.headers
               });
