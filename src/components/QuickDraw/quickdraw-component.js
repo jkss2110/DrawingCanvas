@@ -9,56 +9,134 @@ export default class QuickDraw extends React.Component {
     this.httpHandler = new HttpRequestHandler();
     this.state = {
       outputData: {
-                    lines : [],
-                width: 400,
-                height: 400
-                }
+        lines: [],
+        width: 400,
+        height: 400,
+      },
+      face : true,
+      truck : false,
+      bear : false,
     };
     this.canvasContent = [];
+    this.count = 0;
   }
   componentDidMount() {
-    this.httpHandler
-      .fetchDrawing("/users")
-      .then((result) => {
-        const drawings = result.drawing;
-        let formatDataJSON = this.formatData(drawings);
-        this.setState(
-          {
-            outputData: formatDataJSON
-          }
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.httpCalls("face");
   }
-  formatData = (drawings) =>{
-   // const drawingLength = drawings.length;
-   let formatDataJSON = this.state.outputData;
-   
-   drawings.forEach(data => {
+  httpCalls = (urlPath) => {
+    this.httpHandler
+    .fetchDrawing("/users/"+urlPath)
+    .then((result) => {
+      const drawings = result.drawing;
+      let formatDataJSON = this.formatData(drawings);
+      this.setState({
+        outputData: formatDataJSON,
+      });
+      
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
+  formatData = (drawings) => {
+    // const drawingLength = drawings.length;
+    let formatDataJSON = {
+      lines : [],
+      width : 400,
+      height : 400
+    };
+    drawings.forEach((data) => {
       const lineData = {
-        brushColor : "#ffc600",
-        brushRadius : 6,
-        points : []
+        brushColor: "#ffc600",
+        brushRadius: 6,
+        points: [],
       };
-      for (let i=0;i<data[0].length;i++){
+      for (let i = 0; i < data[0].length; i++) {
         let points = {
-          x: data[0][i],
-          y: data[1][i],
+          x: 50+data[0][i],
+          y: 50+data[1][i],
         };
         lineData.points.push(points);
       }
       formatDataJSON.lines.push(lineData);
       this.canvasContent = [];
-      this.canvasContent.push(<Canvas loadData={this.state.outputData}></Canvas>);
+      this.canvasContent.push(
+        <Canvas loadData={formatDataJSON}></Canvas>
+      );
     });
     return formatDataJSON;
-  }
+  };
+  onCheckBoxChange(event){
+    const currTarget = event.currentTarget;
+    switch(currTarget.name){
+      case 'face':  if (currTarget.checked){
+                        this.setState({
+                          'truck': false,
+                          "face" : true,
+                          "bear" : false,
+                        });
+                         this.httpCalls(currTarget.name);
+                    }
+                    break;
+      case 'truck':  if (currTarget.checked){
+                      this.setState({
+                        'truck': true,
+                        "face" : false,
+                        "bear" : false,
+                      });
+                      this.httpCalls('truck');
+                    }
+                    break;
+      case 'bear':  if (currTarget.checked){
+                      this.setState({
+                        'truck': false,
+                        "face" : false,
+                        "bear" : true,
+                      });
+                      this.httpCalls('bear');
+                    }
+                    break;
+                    
+      default : console.log('missing');
+    }
+  };
   render() {
     return (
       <>
-      {this.canvasContent}
+        {this.canvasContent}
+        <form class="chkForm">
+          <label>
+            Face:
+            <input
+              name="face"
+              type="radio"
+              checked={this.state.face}
+              onChange={this.onCheckBoxChange.bind(this)}
+            />
+          </label>
+          <br />
+          <label>
+            Truck:
+            <input
+              name="truck"
+              type="radio"
+              checked={this.state.truck}
+              onChange={this.onCheckBoxChange.bind(this)}
+            />
+          </label>
+          <br />
+          <label>
+            Bear:
+            <input
+              name="bear"
+              type="radio"
+              checked={this.state.bear}
+              onChange={this.onCheckBoxChange.bind(this)}
+            />
+          </label>
+          
+        </form>
       </>
     );
   }

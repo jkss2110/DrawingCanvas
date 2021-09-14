@@ -13,13 +13,24 @@ class Canvas extends React.Component {
   constructor(props){
     super(props);
     this.loadedData = JSON.stringify(this.props.loadData);
+    this.index = 0;
+    
   }
+  canvasDrawRef = (canvasDraw) => {
+    this.saveableCanvas = canvasDraw;
+  };
   render() {
+    this.loadedData = JSON.stringify(this.props.loadData);
+    if (this.saveableCanvas){
+      this.saveableCanvas.clear();
+    }
+    this.index++;
     return (
       <>
         <div class="canvasArea">
         <CanvasDraw
-          ref={(canvasDraw) => (this.saveableCanvas = canvasDraw)}
+          key={this.index}
+          ref={this.canvasDrawRef}
           brushRadius={this.state.brushRadius}
           lazyRadius={this.state.lazyRadius}
           brushColor={this.state.color}

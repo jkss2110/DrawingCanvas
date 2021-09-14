@@ -1,3 +1,9 @@
 .canvasStyles{
     border: dashed;
 }
+.chkForm{
+    display: flex;
+    padding: 2rem;
+    border: dotted;
+    height: 2rem;
+}
