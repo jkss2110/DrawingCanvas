@@ -2,6 +2,8 @@ import React from "react";
 import HttpRequestHandler from "../../service/HttpRequestHandler";
 import Canvas from "../Canvas/canvas.component";
 import "./quickdraw.css";
+import DrawSelection from "../DrawSelection/drawselection.component";
+import PaperDraw from "../Paper/paper-draw.component";
 
 export default class QuickDraw extends React.Component {
   constructor(props) {
@@ -16,6 +18,11 @@ export default class QuickDraw extends React.Component {
       face : true,
       truck : false,
       bear : false,
+      radiochk : {
+                    face : true,
+                    truck : false,
+                    bear : false,
+                  }
     };
     this.canvasContent = [];
     this.count = 0;
@@ -72,27 +79,35 @@ export default class QuickDraw extends React.Component {
     switch(currTarget.name){
       case 'face':  if (currTarget.checked){
                         this.setState({
-                          'truck': false,
-                          "face" : true,
-                          "bear" : false,
+                          radiochk:{
+                            'truck': false,
+                            "face" : true,
+                            "bear" : false,
+                          }
                         });
                          this.httpCalls(currTarget.name);
                     }
                     break;
       case 'truck':  if (currTarget.checked){
                       this.setState({
-                        'truck': true,
-                        "face" : false,
-                        "bear" : false,
+                        radiochk:{
+                          'truck': true,
+                          "face" : false,
+                          "bear" : false,
+                        }
+                        
                       });
                       this.httpCalls('truck');
                     }
                     break;
       case 'bear':  if (currTarget.checked){
                       this.setState({
-                        'truck': false,
-                        "face" : false,
-                        "bear" : true,
+                        radiochk:{
+                          'truck': false,
+                          "face" : false,
+                          "bear" : true,
+                        }
+                        
                       });
                       this.httpCalls('bear');
                     }
@@ -105,38 +120,8 @@ export default class QuickDraw extends React.Component {
     return (
       <>
         {this.canvasContent}
-        <form class="chkForm">
-          <label>
-            Face:
-            <input
-              name="face"
-              type="radio"
-              checked={this.state.face}
-              onChange={this.onCheckBoxChange.bind(this)}
-            />
-          </label>
-          <br />
-          <label>
-            Truck:
-            <input
-              name="truck"
-              type="radio"
-              checked={this.state.truck}
-              onChange={this.onCheckBoxChange.bind(this)}
-            />
-          </label>
-          <br />
-          <label>
-            Bear:
-            <input
-              name="bear"
-              type="radio"
-              checked={this.state.bear}
-              onChange={this.onCheckBoxChange.bind(this)}
-            />
-          </label>
-          
-        </form>
+        <DrawSelection radiochk={this.onCheckBoxChange.bind(this)} chkState={this.state.radiochk}></DrawSelection>       
+        
       </>
     );
   }
