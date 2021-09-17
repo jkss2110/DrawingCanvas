@@ -1,38 +1,13 @@
+import { Button } from "reactstrap";
 const DrawSelection = (props) => {
   const radiochk = props.radiochk;
-  const chkState = props.chkState;
+  //const chkState = props.chkState;
   return (
-    <form class="chkForm">
-      <label>
-        Face:
-        <input
-          name="face"
-          type="radio"
-          checked={chkState.face}
-          onChange={radiochk}
-        />
-      </label>
-      <br />
-      <label>
-        Truck:
-        <input
-          name="truck"
-          type="radio"
-          checked={chkState.truck}
-          onChange={radiochk}
-        />
-      </label>
-      <br />
-      <label>
-        Bear:
-        <input
-          name="bear"
-          type="radio"
-          checked={chkState.bear}
-          onChange={radiochk}
-        />
-      </label>
-    </form>
+    <div class="chkForm">
+    <Button variant="primary" name='face' onClick={radiochk}>Faces</Button>
+    <Button variant="secondary" name='bear' onClick={radiochk}>Bears</Button>
+    <Button variant="default" name='truck' onClick={radiochk}>Trucks</Button>
+    </div>
   );
 };
 

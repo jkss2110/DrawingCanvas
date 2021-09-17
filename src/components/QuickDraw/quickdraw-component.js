@@ -15,14 +15,6 @@ export default class QuickDraw extends React.Component {
         width: 400,
         height: 400,
       },
-      face : true,
-      truck : false,
-      bear : false,
-      radiochk : {
-                    face : true,
-                    truck : false,
-                    bear : false,
-                  }
     };
     this.canvasContent = [];
     this.count = 0;
@@ -76,51 +68,13 @@ export default class QuickDraw extends React.Component {
   };
   onCheckBoxChange(event){
     const currTarget = event.currentTarget;
-    switch(currTarget.name){
-      case 'face':  if (currTarget.checked){
-                        this.setState({
-                          radiochk:{
-                            'truck': false,
-                            "face" : true,
-                            "bear" : false,
-                          }
-                        });
-                         this.httpCalls(currTarget.name);
-                    }
-                    break;
-      case 'truck':  if (currTarget.checked){
-                      this.setState({
-                        radiochk:{
-                          'truck': true,
-                          "face" : false,
-                          "bear" : false,
-                        }
-                        
-                      });
-                      this.httpCalls('truck');
-                    }
-                    break;
-      case 'bear':  if (currTarget.checked){
-                      this.setState({
-                        radiochk:{
-                          'truck': false,
-                          "face" : false,
-                          "bear" : true,
-                        }
-                        
-                      });
-                      this.httpCalls('bear');
-                    }
-                    break;
-                    
-      default : console.log('missing');
-    }
+    this.httpCalls(currTarget.name);
   };
   render() {
     return (
       <>
         {this.canvasContent}
-        <DrawSelection radiochk={this.onCheckBoxChange.bind(this)} chkState={this.state.radiochk}></DrawSelection>       
+        <DrawSelection radiochk={this.onCheckBoxChange.bind(this)}></DrawSelection>       
         
       </>
     );

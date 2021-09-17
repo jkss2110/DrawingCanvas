@@ -2,7 +2,7 @@
     border: dashed;
 }
 .chkForm{
-    display: flex;
+    display: flow-root;
     padding: 2rem;
     height: 2rem;
 }

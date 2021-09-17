@@ -3,3 +3,7 @@ background: whitesmoke;
 width: 24rem;
 margin-top: 2rem;
 }
+.screenshotImage{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+}

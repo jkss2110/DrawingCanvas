@@ -5,28 +5,37 @@ import "./canvas.css";
 //import { useScreenshot } from "use-react-screenshot";
 import { useScreenshot } from "use-react-screenshot";
 import PaperDraw from "../Paper/paper-draw.component";
-import  back_img from '../../img/back_img.jpg'
+import  back_img from '../../img/back_img.png'
 
 const Canvas = (props) => {
   const [brushRadius] = useState(6);
-  const [width] = useState(400);
-  const [height] = useState(400);
+  const [brushColor] = useState('#ffc600');
+  const [width] = useState(200);
+  const [height] = useState(200);
   const loadData = JSON.stringify(props.loadData);
   const canvasDrawDiv = createRef(null);
   const canvasDraw = createRef(null);
   const [image, takeScreenShot] = useScreenshot();
+  const [backgrdWidth] = useState(384);
+  const [backgrdHeight] = useState(432);
+  const [selectBtn, setSelectBtn] = useState('Select');
   let index = 0;
-  let [imgContent, setImgContent] =useState([<img key={index} width={width} src={back_img} alt={"ScreenShot"}/>]);
+  let [imgContent, setImgContent] =useState([]);
+  let [backImgCnt] =useState([<img key={index} width={backgrdWidth} height={backgrdHeight} src={back_img} alt={"ScreenShot"}/>]);
   let temp = [];
   
-  const getImage = () => {
+  const getImage = (event) => {
     takeScreenShot(canvasDrawDiv.current);
-    //debugger;
-    //let imageContent = [],paperContent=[];
     index++;
     temp = [];
-    temp.push(<img key={index} width={width} src={image} alt={"ScreenShot"}/>);
+    temp.push(<img key={index} class="screenshotImage" src={image} alt={"ScreenShot"}/>);
     setImgContent(temp);
+    const btnValue = event.currentTarget.textContent;
+    if (btnValue === 'Select'){
+      setSelectBtn('Move');
+    }else{
+      setSelectBtn('Select');
+    }
   };
   const clearCanvas = () => {
     canvasDraw.current.clear();
@@ -41,9 +50,11 @@ const Canvas = (props) => {
           key={index}
           ref={canvasDraw}
           brushRadius={brushRadius}
+          brushColor={brushColor}
           width={width}
           height={height}
           hideGrid
+          hideInterface 
           saveData={loadData}
           style={{
             boxShadow:
@@ -56,7 +67,7 @@ const Canvas = (props) => {
         <button
         onClick={getImage}
         >
-          Save
+          {selectBtn}
         </button>
         <button
           onClick={clearCanvas}
@@ -69,7 +80,7 @@ const Canvas = (props) => {
           Undo
         </button>
       </div>
-      <PaperDraw key={index} imageContent={imgContent}></PaperDraw>
+      <PaperDraw key={index} bckImgContent={backImgCnt} imageContent={imgContent}></PaperDraw>
     </>
   );
 };
