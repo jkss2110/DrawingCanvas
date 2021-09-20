@@ -3,7 +3,6 @@ import HttpRequestHandler from "../../service/HttpRequestHandler";
 import Canvas from "../Canvas/canvas.component";
 import "./quickdraw.css";
 import DrawSelection from "../DrawSelection/drawselection.component";
-import PaperDraw from "../Paper/paper-draw.component";
 
 export default class QuickDraw extends React.Component {
   constructor(props) {

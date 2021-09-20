@@ -5,7 +5,9 @@ import "./canvas.css";
 //import { useScreenshot } from "use-react-screenshot";
 import { useScreenshot } from "use-react-screenshot";
 import PaperDraw from "../Paper/paper-draw.component";
-import  back_img from '../../img/back_img.png'
+import  back_img from '../../img/back_img.png';
+import HttpRequestHandler from "../../service/HttpRequestHandler";
+import { trackPromise} from 'react-promise-tracker';
 
 const Canvas = (props) => {
   const [brushRadius] = useState(6);
@@ -23,13 +25,22 @@ const Canvas = (props) => {
   let [imgContent, setImgContent] =useState([]);
   let [backImgCnt] =useState([<img key={index} width={backgrdWidth} height={backgrdHeight} src={back_img} alt={"ScreenShot"}/>]);
   let temp = [];
-  
+  let httpHandler = new HttpRequestHandler();
   const getImage = (event) => {
     takeScreenShot(canvasDrawDiv.current);
     index++;
     temp = [];
-    temp.push(<img key={index} class="screenshotImage" src={image} alt={"ScreenShot"}/>);
-    setImgContent(temp);
+    if (image){
+      trackPromise(
+      httpHandler.fetchNoBckGrdImage(image).then(
+        (result) => {
+          index++;
+          temp.push(<img key={index} class="screenshotImage" src={result.fileContent} alt={"ScreenShot"}/>);
+          setImgContent(temp);
+        }
+      )
+      );
+    }
     const btnValue = event.currentTarget.textContent;
     if (btnValue === 'Select'){
       setSelectBtn('Move');
