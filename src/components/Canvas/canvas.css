@@ -3,9 +3,10 @@
     width: 400px;
 }
 .btnCollection{
-    margin-top: 3rem;
+    margin-top: 11rem;
     margin-right: 0.5rem;
     display: flex-root;
+    height: 5rem;
 }
 .clearBtn {
     margin-top: 0.5rem;

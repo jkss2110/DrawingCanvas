@@ -2,7 +2,7 @@ import React from "react";
 import "./paper-draw.css";
 //var RegionSelect = require("react-region-select");
 import RegionSelect from 'react-region-select';
-import { Button } from "reactstrap";
+import BackGroundSelect from "../BackGroundSelection/backgroundselection.component";
 
 class PaperDraw extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class PaperDraw extends React.Component {
     this.bckImgContent = this.props.bckImgContent;
     this.regionRenderer = this.regionRenderer.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onDownload=this.onDownload.bind(this);
+    //this.onDownload=this.onDownload.bind(this);
     this.state = {
       regions: [],
     };
@@ -47,13 +47,15 @@ class PaperDraw extends React.Component {
       this.imgContent = this.props.imageContent;
     }
   }
-  onDownload(){
+  onSelectionChange(newValue, action){
     debugger;
+   
   }
   render() {
     //this.setRefenence = this.props.reference;
     return (
       <>
+      <BackGroundSelect onSelectionChange={this.onSelectionChange.bind(this)}></BackGroundSelect>
       <div ref={(divDraw) => (this.saveableDiv = divDraw)}>
           <RegionSelect
             className="paperDrawing"

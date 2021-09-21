@@ -8,6 +8,7 @@
 /server/serverGame/bin 
 # testing
 /coverage
+/server/drawings
 
 # production
 /build

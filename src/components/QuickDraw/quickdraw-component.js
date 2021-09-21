@@ -13,7 +13,7 @@ export default class QuickDraw extends React.Component {
         lines: [],
         width: 400,
         height: 400,
-      },
+      }
     };
     this.canvasContent = [];
     this.count = 0;
@@ -59,8 +59,9 @@ export default class QuickDraw extends React.Component {
       }
       formatDataJSON.lines.push(lineData);
       this.canvasContent = [];
+      this.count++;
       this.canvasContent.push(
-        <Canvas loadData={formatDataJSON}></Canvas>
+        <Canvas key={this.count} loadData={formatDataJSON}></Canvas>
       );
     });
     return formatDataJSON;
@@ -73,8 +74,9 @@ export default class QuickDraw extends React.Component {
     return (
       <>
         {this.canvasContent}
+        <div className="rightPanel">
         <DrawSelection radiochk={this.onCheckBoxChange.bind(this)}></DrawSelection>       
-        
+        </div>
       </>
     );
   }

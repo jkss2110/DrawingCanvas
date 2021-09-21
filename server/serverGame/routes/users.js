@@ -3,18 +3,34 @@ var router = express.Router();
 const ndjson = require('ndjson');
 const fs = require('fs');
 
-let facedrawing = [],beardrawing = [],truckDrawing=[];
+let facedrawing = [],beardrawing = [],truckDrawing=[],mountainDrawing=[],sunDrawing=[],rainbowDrawing=[],riverDrawing=[];
 fs.createReadStream('../drawings/face.ndjson').pipe(ndjson.parse()).on(
   'data', function(obj){
     facedrawing.push(obj);
   });
-  fs.createReadStream('../drawings/truck.ndjson').pipe(ndjson.parse()).on(
+fs.createReadStream('../drawings/truck.ndjson').pipe(ndjson.parse()).on(
     'data', function(obj){
       truckDrawing.push(obj);
     });
-    fs.createReadStream('../drawings/bear.ndjson').pipe(ndjson.parse()).on(
+fs.createReadStream('../drawings/bear.ndjson').pipe(ndjson.parse()).on(
       'data', function(obj){
         beardrawing.push(obj);
+      });
+fs.createReadStream('../drawings/mountain.ndjson').pipe(ndjson.parse()).on(
+      'data', function(obj){
+        mountainDrawing.push(obj);
+      });
+fs.createReadStream('../drawings/sun.ndjson').pipe(ndjson.parse()).on(
+      'data', function(obj){
+        sunDrawing.push(obj);
+      });
+fs.createReadStream('../drawings/river.ndjson').pipe(ndjson.parse()).on(
+      'data', function(obj){
+        riverDrawing.push(obj);
+      });
+fs.createReadStream('../drawings/rainbow.ndjson').pipe(ndjson.parse()).on(
+      'data', function(obj){
+        rainbowDrawing.push(obj);
       });
 /* GET users listing. */
 router.get('/:id', function(req, res, next) {
@@ -30,6 +46,18 @@ router.get('/:id', function(req, res, next) {
                   break;
     case 'bear' : index = Math.floor(Math.random() * beardrawing.length);
                   res.send(beardrawing[index]);
+                  break;
+    case 'mountain' : index = Math.floor(Math.random() * mountainDrawing.length);
+                  res.send(mountainDrawing[index]);
+                  break;
+    case 'sun' : index = Math.floor(Math.random() * sunDrawing.length);
+                  res.send(sunDrawing[index]);
+                  break;
+    case 'river' : index = Math.floor(Math.random() * riverDrawing.length);
+                  res.send(riverDrawing[index]);
+                  break;
+    case 'rainbow' : index = Math.floor(Math.random() * rainbowDrawing.length);
+                  res.send(rainbowDrawing[index]);
                   break;
     default : res.send([]);
   }

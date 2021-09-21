@@ -1,5 +1,5 @@
 //import useCanvas from "./useCanvas.component";
-import { useState, createRef, useRef } from "react";
+import { useState, useRef } from "react";
 import CanvasDraw from "react-canvas-draw";
 import "./canvas.css";
 //import { useScreenshot } from "use-react-screenshot";
@@ -124,11 +124,11 @@ const Canvas = (props) => {
         <Button class="clearBtn" variant="secondary" name="clearborder" onClick={onClearBorders}>
           Clear Borders
       </Button>
-      </div>
-      <div>
       <Button class="downloadBtn"  variant="secondary" name="Download" onClick={onDownload}>
           Download
       </Button>
+      </div>
+      <div>
       <div id="my-node" ref={paperDrawRef}>
       <PaperDraw
         key={index}
