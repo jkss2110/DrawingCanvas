@@ -13,27 +13,29 @@ var fileContent = req.body.file;
         size: "auto",
       },
       headers: {
-        "X-Api-Key": "99iWbM8q8BUQUkX5JSDcEFxv",
+        "X-Api-Key": "i8rvgKtsrTNqvVaCLwH9vkCH",
       },
       encoding: null,
     },
     function (error, response, body) {
       if (error) return console.error("Request failed:", error);
-      if (response.statusCode !== 200)
-        return console.error(
+      if (response.statusCode !== 200){
+        res.send(console.error(
           "Error:",
           response.statusCode,
           body.toString("utf8")
-        );
+        ));
+      }else{
+        let raw = body.toString('base64');
+        raw = "data:" + response.headers["content-type"] + ";base64,"+raw;
+        var fileNoImage = {
+          fileContent: raw
+        };
+        console.log("success");
+        res.send(fileNoImage);
+      }
 
       //fs.writeFileSync("../drawings/no-bg1.png", body);
-      let raw = body.toString('base64');
-      raw = "data:" + response.headers["content-type"] + ";base64,"+raw;
-      var fileNoImage = {
-        fileContent: raw
-      };
-      console.log("success");
-      res.send(fileNoImage);
     }
   );
 });

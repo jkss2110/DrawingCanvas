@@ -1,6 +1,8 @@
 import React from "react";
 import "./paper-draw.css";
-var RegionSelect = require("react-region-select");
+//var RegionSelect = require("react-region-select");
+import RegionSelect from 'react-region-select';
+import { Button } from "reactstrap";
 
 class PaperDraw extends React.Component {
   constructor(props) {
@@ -8,6 +10,7 @@ class PaperDraw extends React.Component {
     this.bckImgContent = this.props.bckImgContent;
     this.regionRenderer = this.regionRenderer.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onDownload=this.onDownload.bind(this);
     this.state = {
       regions: [],
     };
@@ -28,7 +31,6 @@ class PaperDraw extends React.Component {
       }
       return (
         <div
-          ref={(divDraw) => (this.saveableDiv = divDraw)}
           style={{
             position: "absolute",
             width: "-webkit-fill-available",
@@ -45,20 +47,25 @@ class PaperDraw extends React.Component {
       this.imgContent = this.props.imageContent;
     }
   }
+  onDownload(){
+    debugger;
+  }
   render() {
+    //this.setRefenence = this.props.reference;
     return (
       <>
-        <div class="paperDrawing" >
+      <div ref={(divDraw) => (this.saveableDiv = divDraw)}>
           <RegionSelect
+            className="paperDrawing"
             maxRegions={5}
             regions={this.state.regions}
             onChange={this.onChange}
             regionRenderer={this.regionRenderer}
-            constraint
+            style={{ border: '1px solid black' }}
           >
             {this.bckImgContent}
           </RegionSelect>
-        </div>
+      </div>
       </>
     );
   }
