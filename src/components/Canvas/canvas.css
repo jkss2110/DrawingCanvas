@@ -1,5 +1,8 @@
 .canvasArea{
-    margin: 2rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
     width: 400px;
 }
 .btnCollection{
@@ -15,4 +18,7 @@
 .downloadBtn{
     margin-top: 1rem;
     height: 2rem;
+}
+.canvasContainer{
+    display: flex;
 }

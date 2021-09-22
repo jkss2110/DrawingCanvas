@@ -3,6 +3,11 @@ import HttpRequestHandler from "../../service/HttpRequestHandler";
 import Canvas from "../Canvas/canvas.component";
 import "./quickdraw.css";
 import DrawSelection from "../DrawSelection/drawselection.component";
+import PaperDraw from "../Paper/paper-draw.component";
+import BackGroundSelect from "../BackGroundSelection/backgroundselection.component";
+import { trackPromise } from "react-promise-tracker";
+import back_img from "../../img/back_img.png";
+import BrushColorSelection from "../BrushColor/brushcolorselection.component";
 
 export default class QuickDraw extends React.Component {
   constructor(props) {
@@ -13,69 +18,172 @@ export default class QuickDraw extends React.Component {
         lines: [],
         width: 400,
         height: 400,
-      }
+      },
+      backgrdWidth: 384,
+      backgrdHeight: 432,
+      image: [],
+      backImage: [],
+      index: 0,
+      brushColor: "#ffc600",
+      currentImage: "face",
+      currDrawing: [],
     };
-    this.canvasContent = [];
     this.count = 0;
+    this.index = 0;
   }
   componentDidMount() {
-    this.httpCalls("face");
+    // this.httpCalls("face");
+    this.setBckGrnd(back_img);
   }
-  httpCalls = (urlPath) => {
-    this.httpHandler
-    .fetchDrawing("/users/"+urlPath)
-    .then((result) => {
-      const drawings = result.drawing;
-      let formatDataJSON = this.formatData(drawings);
-      this.setState({
-        outputData: formatDataJSON,
-      });
-      
-    })
-    .catch((err) => {
-      console.log(err);
+  setBckGrnd = (image) => {
+    this.index++;
+    this.setState({
+      backImage: [
+        <img
+          key={this.index}
+          width={this.state.backgrdWidth}
+          height={this.state.backgrdHeight}
+          src={image}
+          alt={"ScreenShot"}
+        />,
+      ],
     });
+  };
+  httpCalls = (urlPath) => {
+    trackPromise(
+    this.httpHandler
+      .fetchDrawing("/users/" + urlPath)
+      .then((result) => {
+        const drawings = result.drawing;
+        this.setState({
+            currDrawing: drawings,
+        });
+        let formatDataJSON = this.formatData(drawings);
+        this.setState({
+          outputData: formatDataJSON,
+        });
+        this.count++;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    );
   };
 
   formatData = (drawings) => {
     // const drawingLength = drawings.length;
     let formatDataJSON = {
-      lines : [],
-      width : 400,
-      height : 400
+      lines: [],
+      width: 400,
+      height: 400,
     };
     drawings.forEach((data) => {
       const lineData = {
-        brushColor: "#ffc600",
+        brushColor: this.state.brushColor,
         brushRadius: 6,
         points: [],
       };
       for (let i = 0; i < data[0].length; i++) {
         let points = {
-          x: 50+data[0][i],
-          y: 50+data[1][i],
+          x: 50 + data[0][i],
+          y: 50 + data[1][i],
         };
         lineData.points.push(points);
       }
       formatDataJSON.lines.push(lineData);
-      this.canvasContent = [];
-      this.count++;
-      this.canvasContent.push(
-        <Canvas key={this.count} loadData={formatDataJSON}></Canvas>
-      );
     });
     return formatDataJSON;
   };
-  onCheckBoxChange(event){
+  onCheckBoxChange(event) {
     const currTarget = event.currentTarget;
     this.httpCalls(currTarget.name);
+    this.setState({
+      currentImage : currTarget.name,
+    });
+  }
+  onSelectionChange(newValue, action) {
+    this.setBckGrnd(newValue.value);
+  }
+  removeImageBckGrnd(image) {
+    /*let index = this.state.index;
+    index++;
+    let temp = [];
+    temp.push(
+      <img
+        key={index}
+        class="screenshotImage"
+        src={image}
+        alt={"ScreenShot"}
+      />
+    );
+    // setImgContent(temp);
+    this.setState({
+      image: temp,
+      index: index,
+    });*/
+    trackPromise(
+      this.httpHandler.fetchNoBckGrdImage(image).then((result) => {
+        let index = this.state.index;
+        index++;
+        let temp = [];
+        temp.push(
+          <img
+            key={index}
+            class="screenshotImage"
+            src={result.fileContent}
+            alt={"ScreenShot"}
+          />
+        );
+
+        this.setState({
+          image: temp,
+          index: index,
+        });
+      })
+    );
+  }
+  onBrushSelection = (newValue) => {
+    this.setState({
+      brushColor: newValue.value
+    });
+    if (this.state.currDrawing.length > 0){
+      let formatDataJSON = this.formatData(this.state.currDrawing);
+      this.setState({
+        outputData: formatDataJSON,
+      });
+      this.count++;
+    }
   };
   render() {
+    //const imgContent = this.state.image.slice();
+    //const backImgCnt = this.state.backImage.slice();
+    //let index = this.state.index;
+    //index++;
     return (
       <>
-        {this.canvasContent}
+        <div>
+          <Canvas
+            key={this.count}
+            loadData={this.state.outputData}
+            removeImageBckGrnd={this.removeImageBckGrnd.bind(this)}
+          ></Canvas>
+          <BrushColorSelection
+            onSelectionChange={this.onBrushSelection.bind(this)}
+          ></BrushColorSelection>
+        </div>
+        <PaperDraw
+          key={this.index}
+          className="paperDrawContainer"
+          bckImgContent={this.state.backImage}
+          imageContent={this.state.image}
+        ></PaperDraw>
         <div className="rightPanel">
-        <DrawSelection radiochk={this.onCheckBoxChange.bind(this)}></DrawSelection>       
+          <DrawSelection
+            radiochk={this.onCheckBoxChange.bind(this)}
+          ></DrawSelection>
+          <BackGroundSelect
+            onSelectionChange={this.onSelectionChange.bind(this)}
+          ></BackGroundSelect>
         </div>
       </>
     );

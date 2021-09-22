@@ -1,8 +1,9 @@
 import React from "react";
 import "./paper-draw.css";
-//var RegionSelect = require("react-region-select");
-import RegionSelect from 'react-region-select';
-import BackGroundSelect from "../BackGroundSelection/backgroundselection.component";
+import RegionSelect from "react-region-select";
+import { Button } from "reactstrap";
+import domtoimage from "dom-to-image";
+var FileSaver = require("file-saver");
 
 class PaperDraw extends React.Component {
   constructor(props) {
@@ -23,9 +24,12 @@ class PaperDraw extends React.Component {
   regionRenderer(regionProps) {
     let region;
     if (!regionProps.isChanging) {
-      if(this.state.regions.length>0 && this.state.regions[regionProps.index]){
+      if (
+        this.state.regions.length > 0 &&
+        this.state.regions[regionProps.index]
+      ) {
         region = this.state.regions[regionProps.index];
-        if(!region.data.imgContent){
+        if (!region.data.imgContent) {
           region.data.imgContent = this.imgContent;
         }
       }
@@ -43,31 +47,67 @@ class PaperDraw extends React.Component {
     }
   }
   componentDidUpdate(prev) {
-    if (prev.imageContent !== this.props.imageContent) {
+  //  if (prev.imageContent !== this.props.imageContent) {
       this.imgContent = this.props.imageContent;
+   // }
+  }
+  onClearBorders = () => {
+    const paperDraw = document.getElementsByClassName("paperDrawing");
+    if (paperDraw.length === 0) {
+      return;
     }
-  }
-  onSelectionChange(newValue, action){
-    debugger;
-   
-  }
+    let childrens = paperDraw[0].children;
+    for (let i = 0; i < childrens.length - 1; i++) {
+      const child = childrens[i];
+      if (child.dataset.wrapper) {
+        child.style.border = "none";
+        child.style.outline = "none";
+        if (child.children.length > 0) {
+          child.children[0].style.display = "none";
+        }
+      }
+    }
+  };
+  onDownload = () => {
+    domtoimage.toBlob(document.getElementById("my-node")).then(function (blob) {
+      FileSaver.saveAs(blob, "postcard.png");
+    });
+  };
   render() {
     //this.setRefenence = this.props.reference;
     return (
       <>
-      <BackGroundSelect onSelectionChange={this.onSelectionChange.bind(this)}></BackGroundSelect>
-      <div ref={(divDraw) => (this.saveableDiv = divDraw)}>
+        <div class="paperDrawBtn">
+          <Button
+            class="clearBtn"
+            variant="secondary"
+            name="clearborder"
+            onClick={this.onClearBorders.bind(this)}
+          >
+            Clear Borders
+          </Button>
+          <Button
+            class="downloadBtn"
+            variant="secondary"
+            name="Download"
+            onClick={this.onDownload.bind(this)}
+          >
+            Download
+          </Button>
+        </div>
+        <div id="my-node" ref={(divDraw) => (this.saveableDiv = divDraw)}>
           <RegionSelect
             className="paperDrawing"
-            maxRegions={5}
+            maxRegions={7}
             regions={this.state.regions}
             onChange={this.onChange}
+            constraint
             regionRenderer={this.regionRenderer}
-            style={{ border: '1px solid black' }}
+            style={{ border: "1px solid black" }}
           >
             {this.bckImgContent}
           </RegionSelect>
-      </div>
+        </div>
       </>
     );
   }

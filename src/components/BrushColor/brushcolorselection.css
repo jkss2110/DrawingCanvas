@@ -1,0 +1,11 @@
+.brushSelection{
+    width: 13rem;
+    margin-left: 1rem;
+}
+.brushContainer{
+    display: flex;
+}
+.brushLabel{
+    margin-top: 0.25rem;
+    margin-left: 1rem;
+}
