@@ -153,6 +153,7 @@ export default class QuickDraw extends React.Component {
         <div>
           <Canvas
             key={this.count}
+            brushColoring={this.state.brushColor}
             loadData={this.state.outputData}
             removeImageBckGrnd={this.removeImageBckGrnd.bind(this)}
           ></Canvas>

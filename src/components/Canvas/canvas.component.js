@@ -10,8 +10,9 @@ import { Button } from "reactstrap";
 
 const Canvas = (props) => {
   const removeImageBckGrnd = props.removeImageBckGrnd;
+  const brushColoring = props.brushColoring;
   const [brushRadius] = useState(6);
-  const [brushColor] = useState("#ffc600");
+  const [brushColor] = useState(brushColoring);
   const [width] = useState(200);
   const [height] = useState(200);
   const loadData = JSON.stringify(props.loadData);
