@@ -144,8 +144,8 @@ export default class QuickDraw extends React.Component {
       this.setState({
         outputData: formatDataJSON,
       });
-      this.count++;
     }
+    this.count++;
   };
   render() {
     return (
