@@ -30,6 +30,7 @@ export default class QuickDraw extends React.Component {
     };
     this.count = 0;
     this.index = 0;
+    this.prevImage = "";
   }
   componentDidMount() {
     // this.httpCalls("face");
@@ -105,22 +106,14 @@ export default class QuickDraw extends React.Component {
     this.setBckGrnd(newValue.value);
   }
   removeImageBckGrnd(image) {
-    /*let index = this.state.index;
-    index++;
-    let temp = [];
-    temp.push(
-      <img
-        key={index}
-        class="screenshotImage"
-        src={image}
-        alt={"ScreenShot"}
-      />
-    );
-    // setImgContent(temp);
-    this.setState({
-      image: temp,
-      index: index,
-    });*/
+    if(image === this.prevImage){
+      let index = this.state.index;
+        index++;
+        this.setState({
+          index: index,
+        });
+      return;
+    }
     trackPromise(
       this.httpHandler.fetchNoBckGrdImage(image).then((result) => {
         let index = this.state.index;
@@ -134,7 +127,7 @@ export default class QuickDraw extends React.Component {
             alt={"ScreenShot"}
           />
         );
-
+        this.prevImage = image;
         this.setState({
           image: temp,
           index: index,
@@ -155,10 +148,6 @@ export default class QuickDraw extends React.Component {
     }
   };
   render() {
-    //const imgContent = this.state.image.slice();
-    //const backImgCnt = this.state.backImage.slice();
-    //let index = this.state.index;
-    //index++;
     return (
       <>
         <div>
