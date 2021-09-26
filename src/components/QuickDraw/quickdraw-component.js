@@ -114,6 +114,22 @@ export default class QuickDraw extends React.Component {
         });
       return;
     }
+    /*let index = this.state.index;
+    index++;
+    let temp = [];
+    temp.push(
+      <img
+        key={index}
+        class="screenshotImage"
+        src={image}
+        alt={"ScreenShot"}
+      />
+    );
+    this.prevImage = image;
+    this.setState({
+      image: temp,
+      index: index,
+    });*/
     trackPromise(
       this.httpHandler.fetchNoBckGrdImage(image).then((result) => {
         let index = this.state.index;

@@ -39,9 +39,10 @@ class PaperDraw extends React.Component {
             position: "absolute",
             width: "-webkit-fill-available",
             height: "-webkit-fill-available",
+             bottom: '-0.75em',
           }}
         >
-          {region.data.imgContent}
+         {region.data.imgContent}
         </div>
       );
     }
@@ -101,7 +102,6 @@ class PaperDraw extends React.Component {
             maxRegions={7}
             regions={this.state.regions}
             onChange={this.onChange}
-            constraint
             regionRenderer={this.regionRenderer}
             style={{ border: "1px solid black" }}
           >
