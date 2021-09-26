@@ -2,6 +2,8 @@
 # Post Card Creator.
 Created in ReactJS,HTML,CSS and NodeJS.
 
+- Click the postcard to see the working
+
 <p align="center">
 
   [![SC2 Video](./src/img/postcard.jpg)](https://www.youtube.com/watch?v=6xCZkuRTX2M)
