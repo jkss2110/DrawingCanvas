@@ -74,32 +74,47 @@ class PaperDraw extends React.Component {
       FileSaver.saveAs(blob, "postcard.png");
     });
   };
+  onClearCard = () => {
+      this.setState({
+        regions : [],
+      });
+  };
   render() {
     //this.setRefenence = this.props.reference;
     return (
       <>
         <div class="paperDrawBtn">
           <Button
-            class="clearBtn"
+            className="clearBtn"
             variant="secondary"
             name="clearborder"
             onClick={this.onClearBorders.bind(this)}
           >
             Clear Borders
           </Button>
+          <div>
           <Button
-            class="downloadBtn"
+            className="downloadBtn"
             variant="secondary"
             name="Download"
             onClick={this.onDownload.bind(this)}
           >
             Download
           </Button>
+          <Button
+            className="downloadBtn"
+            variant="secondary"
+            name="ClearCard"
+            onClick={this.onClearCard.bind(this)}
+          >
+            Clear Card
+          </Button>
+          </div>
         </div>
         <div id="my-node" ref={(divDraw) => (this.saveableDiv = divDraw)}>
           <RegionSelect
             className="paperDrawing"
-            maxRegions={7}
+            maxRegions={9}
             regions={this.state.regions}
             onChange={this.onChange}
             regionRenderer={this.regionRenderer}

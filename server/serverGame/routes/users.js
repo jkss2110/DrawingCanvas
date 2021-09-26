@@ -3,7 +3,9 @@ var router = express.Router();
 const ndjson = require('ndjson');
 const fs = require('fs');
 
-let facedrawing = [],beardrawing = [],truckDrawing=[],mountainDrawing=[],sunDrawing=[],rainbowDrawing=[],riverDrawing=[];
+let facedrawing = [],beardrawing = [],truckDrawing=[],
+mountainDrawing=[],sunDrawing=[],rainbowDrawing=[],riverDrawing=[],
+animalmigration=[],flowerDrawing=[];
 fs.createReadStream('../drawings/face.ndjson').pipe(ndjson.parse()).on(
   'data', function(obj){
     facedrawing.push(obj);
@@ -32,6 +34,14 @@ fs.createReadStream('../drawings/rainbow.ndjson').pipe(ndjson.parse()).on(
       'data', function(obj){
         rainbowDrawing.push(obj);
       });
+fs.createReadStream('../drawings/animalmigration.ndjson').pipe(ndjson.parse()).on(
+      'data', function(obj){
+        animalmigration.push(obj);
+      });
+fs.createReadStream('../drawings/flower.ndjson').pipe(ndjson.parse()).on(
+      'data', function(obj){
+        flowerDrawing.push(obj);
+      });
 /* GET users listing. */
 router.get('/:id', function(req, res, next) {
   //const search_params = current_url.searchParams;
@@ -59,6 +69,12 @@ router.get('/:id', function(req, res, next) {
     case 'rainbow' : index = Math.floor(Math.random() * rainbowDrawing.length);
                   res.send(rainbowDrawing[index]);
                   break;
+    case 'animalmigration' : index = Math.floor(Math.random() * animalmigration.length);
+                  res.send(animalmigration[index]);
+                  break;    
+    case 'flower' : index = Math.floor(Math.random() * flowerDrawing.length);
+                  res.send(flowerDrawing[index]);
+                  break;   
     default : res.send([]);
   }
 });

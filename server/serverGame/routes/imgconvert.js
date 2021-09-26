@@ -13,7 +13,7 @@ var fileContent = req.body.file;
         size: "auto",
       },
       headers: {
-        "X-Api-Key": "i8rvgKtsrTNqvVaCLwH9vkCH",
+        "X-Api-Key": "R3pyhpwQCuz8ApbuAdabTGTG",
       },
       encoding: null,
     },

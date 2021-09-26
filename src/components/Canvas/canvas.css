@@ -11,14 +11,6 @@
     display: flex-root;
     height: 5rem;
 }
-.clearBtn {
-    margin-top: 0.5rem;
-    height: 2rem;
-}
-.downloadBtn{
-    margin-top: 1rem;
-    height: 2rem;
-}
 .canvasContainer{
     display: flex;
 }

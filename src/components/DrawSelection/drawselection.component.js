@@ -12,6 +12,8 @@ const DrawSelection = (props) => {
     <Button variant="default" name='sun' onClick={radiochk}>Sun</Button>
     <Button variant="default" name='river' onClick={radiochk}>River</Button>
     <Button variant="default" name='rainbow' onClick={radiochk}>Rainbow</Button>
+    <Button variant="default" name='animalmigration' onClick={radiochk}>Migration</Button>
+    <Button variant="default" name='flower' onClick={radiochk}>Flower</Button>
     </div>
   );
 };

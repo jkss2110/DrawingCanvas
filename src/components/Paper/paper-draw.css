@@ -8,4 +8,11 @@ margin-top: 0.5rem;
 }
 .paperDrawBtn{
     margin-top: 11rem;
+    display: list-item;
+}
+.clearBtn{
+    height: 1.5rem;
+}
+.downloadBtn{
+    height: 1.5rem;
 }
